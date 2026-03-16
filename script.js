@@ -6,9 +6,16 @@ themeButton.addEventListener("click", () => {
 });
 
 // Task array
-const tasks = [];
 const taskInput = document.getElementById("taskInput")
 const taskList = document.getElementById("taskList");
+
+// Load Task
+const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+// Save tasks to localStorage
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 // Render task
 function renderTask() {
@@ -33,6 +40,7 @@ function renderTask() {
 
         deleteButton.addEventListener("click", () => {
             tasks.splice(i, 1);
+            saveTasks();
             renderTask();
         });
 
@@ -54,6 +62,7 @@ function addTask() {
 
     tasks.push(task);
     taskInput.value = "";
+    saveTasks();
     renderTask();
 }
 
@@ -64,3 +73,5 @@ taskInput.addEventListener("keydown", (event) => {
         addTask();
     }
 });
+
+renderTask();
