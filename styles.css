@@ -1,0 +1,156 @@
+/* normal theme */
+:root {
+    --bg: #f4f4f4;
+    --card: #ffffff;
+    --text: #222222;
+    --border: #e5e5e5;
+    --button-border: #222222;
+
+    --primary: #008B8B;
+    --primary-hover: #0000FF;
+
+    --danger: #FF0000;
+    --danger-hover: #8B0000;
+}
+
+/* dark theme */
+.dark {
+    --bg: #121212;
+    --card: #1e1e1e;
+    --text: #f3f3f3;
+    --border: #333333;
+    --button-border: #f3f3f3;
+
+    --primary: #008B8B;
+    --primary-hover: #0000FF;
+
+    --danger: #FF0000;
+    --danger-hover: #8B0000;
+}
+
+.dark #themeButton img {
+    filter: invert(1);
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.app {
+    box-sizing: border-box;
+    margin: auto;
+    max-width: 70%;
+    background: var(--card);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+
+    .topBar {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+
+        h1 {
+            font-size: 28px;
+        }
+
+
+        #themeButton {
+            margin-left: auto;
+            background: transparent;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 100px;
+            border: 2px solid var(--button-border);
+        }
+
+        #themeButton:hover {
+            background: var(--border);
+        }
+
+        #themeButton img {
+            width: 25px;
+            height: 25px;
+            display: block;
+        }
+    }
+
+    .inputRow {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        #taskInput {
+            flex: 1;
+            background: var(--bg);
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid var(--button-border);
+            color: var(--text);
+
+            &:focus {
+                outline: none;
+                border-color: var(--primary);
+            }
+        }
+
+        #addButton {
+            border: none;
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+
+            &:hover {
+                background: var(--primary-hover);
+            }
+        }
+    }
+}
+
+.tasksDiv {
+    box-sizing: border-box;
+    max-width: 70%;
+    margin: 12px auto;
+}
+
+#taskList {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+#taskList li {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    padding: 12px 16px;
+
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+
+    background: var(--card);
+    color: var(--text);
+}
+
+.deleteButton {
+    border: none;
+    margin-left: auto;
+    background: var(--danger);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.deleteButton:hover {
+    background: var(--danger-hover);
+}
