@@ -9,7 +9,7 @@ themeButton.addEventListener("click", () => {
 const taskInput = document.getElementById("taskInput")
 const taskList = document.getElementById("taskList");
 
-// Load Task
+// Load Task from local storage
 const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 // Save tasks to localStorage
