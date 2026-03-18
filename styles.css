@@ -97,6 +97,7 @@ input {
 
             .filterDropdown {
                 position: relative;
+
                 #filterToggle {
                     background: transparent;
                     cursor: pointer;
@@ -190,7 +191,7 @@ input {
     max-width: 70%;
     margin: 12px auto;
 
-    #taskList {
+    #tasksList {
         list-style: none;
         width: 100%;
         padding: 0;
@@ -213,13 +214,18 @@ input {
         }
 
         .deleteButton {
-            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
             margin-left: auto;
+            border: 0px;
+            border-radius: 8px;
             background: var(--danger);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
+            img {
+                width: 25px;
+                filter: invert(1);
+            }
         }
 
         .deleteButton:hover {

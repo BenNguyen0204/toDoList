@@ -32,7 +32,7 @@ document.querySelectorAll('input[name="filter"]').forEach(radio => {
 
 // Task array
 const taskInput = document.getElementById("taskInput");
-const taskList = document.getElementById("taskList");
+const tasksList = document.getElementById("tasksList");
 
 // Load tasks from localStorage
 const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -44,7 +44,7 @@ function saveTasks() {
 
 // Render tasks
 function renderTask() {
-    taskList.innerHTML = "";
+    tasksList.innerHTML = "";
 
     const filtered = tasks.filter(t => {
         if(currentFilter == "active") return !t.completed;
@@ -53,11 +53,11 @@ function renderTask() {
     });
 
     if (filtered.length === 0) {
-        taskList.style.display = "none";
+        tasksList.style.display = "none";
         return;
     }
 
-    taskList.style.display = "block";
+    tasksList.style.display = "block";
 
     for (let i = 0; i < filtered.length; i++) {
         const task = filtered[i];
@@ -77,14 +77,18 @@ function renderTask() {
 
         const text = document.createElement("span");
         text.textContent = task.text;
-        if (tasks.completed) {
+        if (task.completed) {
             text.classList.add("completed");
         }
 
         // Delete task button
+        const delImg = document.createElement("img");
+        delImg.src = "images/delete.png";
+        delImg.alt = "Delete";
+
         const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
         deleteButton.className = "deleteButton";
+        deleteButton.appendChild(delImg);
         deleteButton.addEventListener("click", () => {
             tasks.splice(realIndex, 1);
             saveTasks();
@@ -94,7 +98,7 @@ function renderTask() {
         li.appendChild(checkBox);
         li.appendChild(text);
         li.appendChild(deleteButton);
-        taskList.appendChild(li);
+        tasksList.appendChild(li);
     }
 }
 
