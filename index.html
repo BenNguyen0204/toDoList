@@ -12,9 +12,21 @@
     <div class="app">
         <div class="topBar">
             <h1>To-Do List</h1>
-            <button id="themeButton">
-                <img src="images/darkMode.png" alt="Theme Button" />
-            </button>
+            <div class="buttons">
+                <div class="filterDropdown" id="filterDropdown">
+                    <button id="filterToggle">
+                        <img src="images/filter.png" alt="Filter" />
+                    </button>
+                    <div class="filterMenu" id="filterMenu">
+                        <label><input type="radio" name="filter" value="all" checked /> All</label>
+                        <label><input type="radio" name="filter" value="active" /> Active</label>
+                        <label><input type="radio" name="filter" value="completed" /> Completed</label>
+                    </div>
+                </div>
+                <button id="themeButton">
+                    <img src="images/darkMode.png" alt="Theme Button" />
+                </button>
+            </div>
         </div>
 
         <div class="inputRow">

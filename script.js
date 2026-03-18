@@ -5,6 +5,31 @@ themeButton.addEventListener("click", () => {
     document.body.classList.toggle("dark");
 });
 
+// Filter
+let currentFilter = "all";
+const filterToggle = document.getElementById("filterToggle");
+const filterMenu = document.getElementById("filterMenu");
+
+filterToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    filterMenu.classList.toggle("open");
+});
+
+document.addEventListener("click", () => {
+    filterMenu.classList.remove("open");
+});
+
+filterMenu.addEventListener("click", (e) => {
+    e.stopPropagation();
+});
+
+document.querySelectorAll('input[name="filter"]').forEach(radio => {
+    radio.addEventListener("change", () => {
+        currentFilter = radio.value;
+        renderTask();
+    })
+})
+
 // Task array
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
@@ -21,29 +46,38 @@ function saveTasks() {
 function renderTask() {
     taskList.innerHTML = "";
 
-    if (tasks.length === 0) {
+    const filtered = tasks.filter(t => {
+        if(currentFilter == "active") return !t.completed;
+        if(currentFilter == "completed") return t.completed;
+        return true;
+    });
+
+    if (filtered.length === 0) {
         taskList.style.display = "none";
         return;
     }
 
     taskList.style.display = "block";
 
-    for (let i = 0; i < tasks.length; i++) {
+    for (let i = 0; i < filtered.length; i++) {
+        const task = filtered[i];
+        const realIndex = tasks.indexOf(task);
+
         const li = document.createElement("li");
 
         // Checkbox for completion
         const checkBox = document.createElement("input");
         checkBox.type = "checkbox";
-        checkBox.checked = tasks[i].completed;
+        checkBox.checked = task.completed; 
         checkBox.addEventListener("click", () => {
-            tasks[i].completed = !tasks[i].completed;
+            tasks[realIndex].completed = !tasks[realIndex].completed;
             saveTasks();
             renderTask();
         });
 
         const text = document.createElement("span");
-        text.textContent = tasks[i].text;
-        if (tasks[i].completed) {
+        text.textContent = task.text;
+        if (tasks.completed) {
             text.classList.add("completed");
         }
 
@@ -52,7 +86,7 @@ function renderTask() {
         deleteButton.textContent = "Delete";
         deleteButton.className = "deleteButton";
         deleteButton.addEventListener("click", () => {
-            tasks.splice(i, 1);
+            tasks.splice(realIndex, 1);
             saveTasks();
             renderTask();
         });
