@@ -53,6 +53,9 @@ function updateCounters() {
     document.getElementById("completedCount").textContent = `Completed: ${completed}`;
 }
 
+// Empty state
+const emptyState = document.getElementById("emptyState");
+
 // Render tasks
 function renderTask() {
     tasksList.innerHTML = "";
@@ -65,10 +68,12 @@ function renderTask() {
 
     if (filtered.length === 0) {
         tasksList.style.display = "none";
+        emptyState.style.display = "block";
         return;
     }
 
     tasksList.style.display = "block";
+    emptyState.style.display = "none";
 
     for (let i = 0; i < filtered.length; i++) {
         const task = filtered[i];
