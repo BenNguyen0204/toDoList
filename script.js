@@ -42,6 +42,17 @@ function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
+// Update counters
+function updateCounters() {
+    const total = tasks.length;
+    const completed = tasks.filter(t => t.completed).length;
+    const active = total - completed;
+
+    document.getElementById("totalCount").textContent = `Total: ${total}`;
+    document.getElementById("activeCount").textContent = `Active: ${active}`;
+    document.getElementById("completedCount").textContent = `Completed: ${completed}`;
+}
+
 // Render tasks
 function renderTask() {
     tasksList.innerHTML = "";
@@ -99,6 +110,7 @@ function renderTask() {
         li.appendChild(text);
         li.appendChild(deleteButton);
         tasksList.appendChild(li);
+        updateCounters();
     }
 }
 

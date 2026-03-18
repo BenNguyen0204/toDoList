@@ -184,6 +184,14 @@ input {
             }
         }
     }
+
+    .taskCounter{
+        display: flex;
+        gap: 50px;
+        color: var(--text);
+        margin-top: 22px;
+        justify-content: center;
+    }
 }
 
 .tasksDiv {
