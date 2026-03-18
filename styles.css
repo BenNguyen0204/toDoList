@@ -154,3 +154,13 @@ body {
 .deleteButton:hover {
     background: var(--danger-hover);
 }
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+li:has(.completed) {
+    opacity: 0.5;
+    transform: translateX(-2px);
+}
