@@ -185,7 +185,7 @@ input {
         }
     }
 
-    .taskCounter{
+    .taskCounter {
         display: flex;
         gap: 50px;
         color: var(--text);
@@ -197,7 +197,7 @@ input {
 .tasksDiv {
     box-sizing: border-box;
     max-width: 70%;
-    margin: 12px auto;
+    margin: 40px auto;
 
     #tasksList {
         list-style: none;
@@ -219,6 +219,10 @@ input {
 
             background: var(--card);
             color: var(--text);
+
+            span {
+                margin: 10px;
+            }
         }
 
         .deleteButton {
@@ -230,6 +234,7 @@ input {
             border: 0px;
             border-radius: 8px;
             background: var(--danger);
+
             img {
                 width: 25px;
                 filter: invert(1);
@@ -254,9 +259,7 @@ input {
     .emptyState {
         display: none;
         text-align: center;
-        padding: 40px;
-        opacity: 0.4;
-        font-size: 15px;
+        margin-top: 100px;
     }
 }
 

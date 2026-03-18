@@ -1,8 +1,17 @@
 // Theme switch
 const themeButton = document.getElementById("themeButton");
 
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+}
+
 themeButton.addEventListener("click", () => {
     document.body.classList.toggle("dark");
+    if (document.body.classList.contains("dark")) {
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
 });
 
 // Filter
@@ -69,6 +78,7 @@ function renderTask() {
     if (filtered.length === 0) {
         tasksList.style.display = "none";
         emptyState.style.display = "block";
+        updateCounters();
         return;
     }
 
