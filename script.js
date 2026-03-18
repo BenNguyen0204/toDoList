@@ -67,11 +67,47 @@ function renderTask() {
 // Add task
 const addButton = document.getElementById("addButton");
 
+// Toast
+const toast = document.getElementById("toast");
+const toastMessage = document.getElementById("toastMessage");
+const toastYes = document.getElementById("toastYes");
+const toastNo = document.getElementById("toastNo");
+const overlay = document.getElementById("overlay");
+
+function showToast(text, onYes) {
+    toastMessage.textContent = text;
+    toast.classList.add("show");
+    overlay.classList.add("show");
+
+    toastYes.onclick = () => {
+        toast.classList.remove("show");
+        overlay.classList.remove("show");
+        onYes();
+    }
+
+    toastNo.onclick = () => {
+        toast.classList.remove("show");
+        overlay.classList.remove("show");
+    }
+}
+
 function addTask() {
     const task = taskInput.value.trim();
     if (task === "") return;
 
-    tasks.push(task);
+    // Duplicate check
+    const isDup = tasks.some(t => t.text.toLowerCase() === task.toLowerCase());
+    if (isDup) {
+        showToast(`"${task}" is already in your list! Add it anyway?`, () => {
+        tasks.push({ text: task, completed: false });
+            taskInput.value = "";
+            saveTasks();
+            renderTask();
+        });
+        return;    
+    }
+
+    tasks.push({ text: task, completed: false });
     taskInput.value = "";
     saveTasks();
     renderTask();

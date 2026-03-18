@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="styles.css" />
     <title>Document</title>
 </head>
+
 <body>
-    <div class = "app">
+    <div class="app">
         <div class="topBar">
             <h1>To-Do List</h1>
             <button id="themeButton">
                 <img src="images/darkMode.png" alt="Theme Button" />
             </button>
         </div>
-        
+
         <div class="inputRow">
-            <input type = "text" id = "taskInput" placeholder="Enter a task for today"/>
-            <button id = "addButton">Add</button>
+            <input type="text" id="taskInput" placeholder="Enter a task for today" />
+            <button id="addButton">Add</button>
         </div>
     </div>
 
-    <div class = tasksDiv>
-        <ul id = "taskList"></ul>
-        <script src = "script.js"></script>
+    <div class="tasksDiv">
+        <ul id="taskList"></ul>
     </div>
+
+    <div class="toast" id="toast">
+        <p id="toastMessage"></p>
+        <div class="toastButtons">
+            <button class="toastYes" id="toastYes">Yes</button>
+            <button class="toastNo" id="toastNo">No</button>
+        </div>
+    </div>
+
+    <div id="overlay" class="overlay"></div>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
