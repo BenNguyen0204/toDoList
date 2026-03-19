@@ -225,24 +225,50 @@ input {
             }
         }
 
-        .deleteButton {
+        .buttonGroup {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 5px;
+            gap: 5px;
             margin-left: auto;
-            border: 0px;
-            border-radius: 8px;
-            background: var(--danger);
 
-            img {
-                width: 25px;
-                filter: invert(1);
+            .deleteButton {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 5px;
+                border: 0px;
+                border-radius: 8px;
+                background: var(--danger);
+                cursor: pointer;
+
+                img {
+                    width: 25px;
+                    filter: invert(1);
+                }
             }
-        }
 
-        .deleteButton:hover {
-            background: var(--danger-hover);
+            .deleteButton:hover {
+                background: var(--danger-hover);
+            }
+
+            .editButton {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 5px;
+                border: 0px;
+                border-radius: 8px;
+                background: var(--primary);
+                cursor: pointer;
+
+                img {
+                    width: 25px;
+                    filter: invert(1);
+                }
+
+                &:hover {
+                    background: var(--primary-hover);
+                }
+            }
         }
 
         .completed {
@@ -265,6 +291,7 @@ input {
 
 .toast {
     position: fixed;
+    text-align: center;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -275,7 +302,7 @@ input {
     padding: 15px 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: 10px;
     z-index: 1000;
     visibility: hidden;
@@ -294,6 +321,7 @@ input {
     .toastButtons {
         display: flex;
         gap: 8px;
+        justify-content: center;
 
         button {
             padding: 6px 16px;
@@ -320,6 +348,22 @@ input {
                 background: var(--danger-hover);
             }
         }
+    }
+}
+
+.toastInput {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 100px;
+    padding: 8px 16px;
+    border: 2px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+
+    &:focus {
+        outline: none;
+        border-color: var(--primary);
     }
 }
 
