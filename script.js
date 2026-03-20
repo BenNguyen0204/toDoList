@@ -1,6 +1,9 @@
 // Theme switch
 const themeButton = document.getElementById("themeButton");
 
+// Load tasks from localStorage
+const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
 if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark");
 }
@@ -43,13 +46,16 @@ document.querySelectorAll('input[name="filter"]').forEach(radio => {
 const taskInput = document.getElementById("taskInput");
 const tasksList = document.getElementById("tasksList");
 
-// Load tasks from localStorage
-const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
 // Save tasks to localStorage
 function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
+
+// Migrate old tasks without id
+tasks.forEach(t => {
+    if (!t.id) t.id = Date.now() + Math.random();
+});
+saveTasks();
 
 // Update counters
 function updateCounters() {
@@ -64,6 +70,33 @@ function updateCounters() {
 
 // Empty state
 const emptyState = document.getElementById("emptyState");
+
+// Drag and drop
+tasksList.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    const dragging = tasksList.querySelector(".dragging");
+    if (!dragging) return;
+
+    const siblings = [...tasksList.querySelectorAll("li:not(.dragging)")];
+
+    let insertBefore = null;
+    for (const s of siblings) {
+        const rect = s.getBoundingClientRect();
+        if (e.clientY < rect.top + rect.height / 2) {
+            insertBefore = s;
+            break;
+        }
+    }
+
+    tasksList.insertBefore(dragging, insertBefore);
+
+    const newOrder = [...tasksList.querySelectorAll("li")].map(el => {
+        return tasks.find(t => String(t.id) === el.dataset.id);
+    }).filter(Boolean);
+
+    tasks.length = 0;
+    newOrder.forEach(t => tasks.push(t));
+});
 
 // Render tasks
 function renderTask() {
@@ -87,16 +120,30 @@ function renderTask() {
 
     for (let i = 0; i < filtered.length; i++) {
         const task = filtered[i];
-        const realIndex = tasks.indexOf(task);
+        const realIndex = tasks.findIndex(t => t.id === task.id);
 
         const li = document.createElement("li");
+        li.dataset.id = String(task.id);
+        li.draggable = true;
+
+        li.addEventListener("dragstart", () => {
+            li.classList.add("dragging");
+            saveTasks();
+        });
+
+        li.addEventListener("dragend", () => {
+            li.classList.remove("dragging");
+            saveTasks();
+        });
 
         // Checkbox for completion
         const checkBox = document.createElement("input");
         checkBox.type = "checkbox";
         checkBox.checked = task.completed;
         checkBox.addEventListener("click", () => {
-            tasks[realIndex].completed = !tasks[realIndex].completed;
+            const idx = tasks.findIndex(t => t.id === task.id);
+            if (idx === -1) return;
+            tasks[idx].completed = !tasks[idx].completed;
             saveTasks();
             renderTask();
         });
@@ -115,8 +162,10 @@ function renderTask() {
         editImg.alt = "Edit Icon";
         editButton.appendChild(editImg);
         editButton.addEventListener("click", () => {
-            showEditToat(realIndex);
-        })
+            const idx = tasks.findIndex(t => t.id === task.id);
+            if (idx === -1) return;
+            showEditToast(idx);
+        });
 
         // Delete task button
         const delImg = document.createElement("img");
@@ -126,10 +175,13 @@ function renderTask() {
         deleteButton.className = "deleteButton";
         deleteButton.appendChild(delImg);
         deleteButton.addEventListener("click", () => {
-            tasks.splice(realIndex, 1);
+            const idx = tasks.findIndex(t => t.id === task.id);
+            if (idx === -1) return;
+            tasks.splice(idx, 1);
             saveTasks();
             renderTask();
         });
+
 
         const buttonGroup = document.createElement("div");
         buttonGroup.className = "buttonGroup";
@@ -140,17 +192,17 @@ function renderTask() {
         li.appendChild(text);
         li.appendChild(buttonGroup);
         tasksList.appendChild(li);
-        updateCounters();
     }
+    updateCounters();
 }
 
 // Show edit toast
-function showEditToat(index) {
+function showEditToast(index) {
     toastMessage.textContent = "Edit task:";
     const input = document.createElement("input");
     input.type = "text";
     input.value = tasks[index].text;
-    input.className = "toatInput";
+    input.className = "toastInput";
     toastMessage.appendChild(input);
 
     toast.classList.add("show");
@@ -209,11 +261,10 @@ function addTask() {
     const task = taskInput.value.trim();
     if (task === "") return;
 
-    // Duplicate check
     const isDup = tasks.some(t => t.text.toLowerCase() === task.toLowerCase());
     if (isDup) {
         showToast(`"${task}" is already in your list! Add it anyway?`, () => {
-            tasks.push({ text: task, completed: false });
+            tasks.push({ id: Date.now(), text: task, completed: false });
             taskInput.value = "";
             saveTasks();
             renderTask();
@@ -221,7 +272,7 @@ function addTask() {
         return;
     }
 
-    tasks.push({ text: task, completed: false });
+    tasks.push({ id: Date.now(), text: task, completed: false });
     taskInput.value = "";
     saveTasks();
     renderTask();

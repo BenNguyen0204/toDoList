@@ -220,6 +220,14 @@ input {
             background: var(--card);
             color: var(--text);
 
+            cursor: grab;
+
+            &.dragging {
+                opacity: 0.4;
+                cursor: grabbing;
+                border: 2px dashed var(--primary);
+            }
+
             span {
                 margin: 10px;
             }
@@ -227,7 +235,7 @@ input {
 
         .buttonGroup {
             display: flex;
-            gap: 5px;
+            gap: 7px;
             margin-left: auto;
 
             .deleteButton {
